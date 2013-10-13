@@ -36,10 +36,25 @@ class Builder
         $lines = static::build($config);
         $string = '';
         foreach ($lines as $k => $v) {
+			if(static::requiresQuotes($v))
+				$v = sprintf('"%s"', addslashes($v));
+
             $string .= "{$k} = {$v}" . PHP_EOL;
         }
         return $string;
     }
+
+	/**
+	 * @param string $str
+	 * @return bool|int
+	 */
+	public static function requiresQuotes($str)
+	{
+		if(!is_string($str))
+			return false;
+
+		return (bool)preg_match('/[\\ "=]/', $str);
+	}
 
     /**
      * @param array $config
