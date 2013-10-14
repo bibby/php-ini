@@ -104,7 +104,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 	{
 		$builder = new Builder($input);
 		$this->assertEquals(
-			$output,
+			$output . "\n",
 			$builder->get()
 		);
 	}
