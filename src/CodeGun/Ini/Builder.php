@@ -53,7 +53,7 @@ class Builder
         if(!is_string($str))
             return false;
 
-        return (bool)preg_match('/[\\ "=]/', $str);
+        return (bool)preg_match('/[\s "=]/', $str);
     }
 
     /**
