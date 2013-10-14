@@ -15,13 +15,18 @@ class Builder
         $ini_lines = array();
         foreach ($config as $key => $value) {
             if (is_array($value)) {
-                foreach (static::build($value) as $k => $v) {
-                    $ini_lines[$key . '.' . $k] = $v;
-                }
-            } else {
-                $ini_lines[$key] = $value;
-            }
-        }
+				if(!static::is_assoc($value)){
+					foreach (static::build($value) as $k => $v) {
+						$ini_lines[$key . "[$k]"] = $v;
+					}
+				} else {
+					foreach (static::build($value) as $k => $v) {
+						$ini_lines[$key . '.' . $k] = $v;
+					}
+				}
+			}
+		}
+
         return $ini_lines;
     }
 
@@ -40,6 +45,16 @@ class Builder
         }
         return $string;
     }
+
+	/**
+	 * @param $array
+	 * @return bool
+	 */
+	public static function is_assoc($array)
+	{
+		return (bool)count(array_filter(array_keys($array), 'is_string'));
+	}
+
 
     /**
      * @param array $config
