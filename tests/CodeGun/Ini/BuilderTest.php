@@ -95,10 +95,27 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @param array $input
+	 * @param string $output
+	 * @dataProvider needsQuotes
+	 */
+	public function testQuotes($input, $output)
+	{
+		$builder = new Builder($input);
+		$this->assertEquals(
+			$output . "\n",
+			$builder->get()
+		);
+	}
+
 
 	//
 	//// data provider(s)
 
+	/**
+	 * @return array
+	 */
 	public function dataSets()
 	{
 		return array(
@@ -124,13 +141,13 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 				array(
 					"array" => array(
 						"foo"=>"bar",
-						"num_arr.0" => 1,
-						"num_arr.1" => 2
+						"num_arr[0]" => 1,
+						"num_arr[1]" => 2
 					),
 					"string" => $this->combine(
 						"foo = bar",
-						"num_arr.0 = 1",
-						"num_arr.1 = 2"
+						"num_arr[0] = 1",
+						"num_arr[1] = 2"
 					)
 				),
 
@@ -153,12 +170,43 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 						"database.default.name = db",
 						"database.default.host = master.db",
 						"database.default.ip = dd",
-						"array.0 = a",
-						"array.1 = 1",
-						"array.2 = 3"
+						"array[0] = a",
+						"array[1] = 1",
+						"array[2] = 3"
 					)
 				)
+			)
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function needsQuotes()
+	{
+		$tab="\t";
+		$nl="\n";
+		return array(
+			array(
+				array("k" => 'Spaces 1'),
+				'k = "Spaces 1"'
 			),
+			array(
+				array("k" => "tab{$tab}tab"),
+				'k = "tab'.$tab.'tab"'
+			),
+			array(
+				array("k" => "nl{$nl}nl"),
+				'k = "nl'.$nl.'nl"'
+			),
+			array(
+				array("k" => "a=1"),
+				'k = "a=1"'
+			),
+			array(
+				array("k" => '"hello"'),
+				'k = "\\"hello\\""'
+			)
 		);
 	}
 
