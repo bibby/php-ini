@@ -24,6 +24,8 @@ class Builder
 						$ini_lines[$key . '.' . $k] = $v;
 					}
 				}
+			} else {
+				$ini_lines[$key] = $value;
 			}
 		}
 
