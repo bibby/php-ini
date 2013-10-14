@@ -174,20 +174,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 						"array[1] = 1",
 						"array[2] = 3"
 					)
-				),
-
-				array(
-					array(
-						"array" => array(
-							"s1" => 'Spaces 1',
-							"s2" => "tab\ttab",
-							"s3" => "nl\nnl",
-							"e1" => "a=1",
-							"q1" => '"hello"'
-						)
-					)
 				)
-			),
+			)
 		);
 	}
 
